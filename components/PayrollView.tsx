@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Search, Filter, Upload, Download, DollarSign, AlertCircle, FileText, Send, Mail } from 'lucide-react';
+import { Search, Filter, Upload, Download, DollarSign, AlertCircle, FileText, Send, Mail, FileDown } from 'lucide-react';
 import { PayrollRecord, Employee } from '../types';
 import DataImportModal from './DataImportModal';
 import SalarySlipModal from './SalarySlipModal';
 import { MOCK_EMPLOYEES } from '../constants'; // Fallback if not passed, though normally would come from App state
+import * as XLSX from 'xlsx';
 
 interface PayrollViewProps {
   data: PayrollRecord[];
@@ -38,6 +39,24 @@ const PayrollView: React.FC<PayrollViewProps> = ({ data, onImportData }) => {
       status: row.Status || row.status || 'Processing',
     }));
     onImportData(mappedData);
+  };
+
+  const handleDownloadTemplate = () => {
+    const headers = ['EmployeeID', 'Name', 'Month', 'BasicSalary', 'Allowances', 'Deductions', 'Status'];
+    const sampleData = [{
+      EmployeeID: 'EMP-001',
+      Name: 'Sarah Wijaya',
+      Month: 'October 2023',
+      BasicSalary: 5000000,
+      Allowances: 1000000,
+      Deductions: 200000,
+      Status: 'Processing'
+    }];
+
+    const ws = XLSX.utils.json_to_sheet(sampleData, { header: headers });
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Template");
+    XLSX.writeFile(wb, "Template_Payroll_WaronHospital.xlsx");
   };
 
   const handleSendAllEmails = () => {
@@ -98,6 +117,14 @@ const PayrollView: React.FC<PayrollViewProps> = ({ data, onImportData }) => {
                  <Mail size={16} /> Email All Slips
                </>
              )}
+           </button>
+
+           <button 
+             onClick={handleDownloadTemplate}
+             className="flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 text-slate-600 rounded-lg text-sm font-medium hover:bg-slate-50 transition-colors"
+             title="Download Excel Template"
+           >
+              <FileDown size={16} /> Template
            </button>
 
            <button 

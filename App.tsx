@@ -5,13 +5,15 @@ import EmployeeList from './components/EmployeeList';
 import EmployeeProfile from './components/EmployeeProfile';
 import AttendanceView from './components/AttendanceView';
 import PayrollView from './components/PayrollView';
+import AccountProfile from './components/AccountProfile';
 import Login from './components/Login';
-import { MOCK_EMPLOYEES, MOCK_ATTENDANCE, MOCK_PAYROLL } from './constants';
-import { ViewState, Employee, AttendanceRecord, PayrollRecord, User } from './types';
+import { MOCK_EMPLOYEES, MOCK_ATTENDANCE, MOCK_PAYROLL, MOCK_USERS } from './constants';
+import { ViewState, Employee, AttendanceRecord, PayrollRecord, User, Role, Department } from './types';
 
 const App: React.FC = () => {
   // Auth State
   const [user, setUser] = useState<User | null>(null);
+  const [users, setUsers] = useState<User[]>(MOCK_USERS); // Manage all system users
 
   // App View State
   const [currentView, setCurrentView] = useState<ViewState>('DASHBOARD');
@@ -21,9 +23,15 @@ const App: React.FC = () => {
   const [employees, setEmployees] = useState<Employee[]>(MOCK_EMPLOYEES);
   const [attendance, setAttendance] = useState<AttendanceRecord[]>(MOCK_ATTENDANCE);
   const [payroll, setPayroll] = useState<PayrollRecord[]>(MOCK_PAYROLL);
+  
+  // Settings State
+  const [departments, setDepartments] = useState<string[]>(Object.values(Department));
 
   const handleLogin = (loggedInUser: User) => {
-    setUser(loggedInUser);
+    // Determine the actual current user from the updated state, not just the mock
+    const currentUser = users.find(u => u.username === loggedInUser.username) || loggedInUser;
+    setUser(currentUser);
+    setCurrentView('DASHBOARD');
   };
 
   const handleLogout = () => {
@@ -47,26 +55,91 @@ const App: React.FC = () => {
   const handleImportPayroll = (newRecords: PayrollRecord[]) => {
     setPayroll(prev => [...newRecords, ...prev]);
   };
+  
+  const handleAddDepartment = (newDept: string) => {
+    if (!departments.includes(newDept)) {
+      setDepartments(prev => [...prev, newDept]);
+    }
+  };
+
+  // Manage User Access (Admin only feature)
+  const handleUpdateUserAccess = (employeeId: string, role: Role | null) => {
+    setUsers(prevUsers => {
+      // 1. Check if user already exists for this employee
+      const existingUserIndex = prevUsers.findIndex(u => u.employeeId === employeeId);
+      
+      // If role is null, delete the user (Revoke access)
+      if (role === null) {
+        if (existingUserIndex > -1) {
+          const newUsers = [...prevUsers];
+          newUsers.splice(existingUserIndex, 1);
+          return newUsers;
+        }
+        return prevUsers;
+      }
+
+      // If user exists, update role
+      if (existingUserIndex > -1) {
+        const newUsers = [...prevUsers];
+        newUsers[existingUserIndex] = { ...newUsers[existingUserIndex], role };
+        return newUsers;
+      }
+
+      // If user does not exist, create new user
+      const employee = employees.find(e => e.id === employeeId);
+      if (!employee) return prevUsers;
+
+      const newUser: User = {
+        id: `USR-${Date.now()}`,
+        username: employee.firstName.toLowerCase().replace(/\s/g, ''),
+        fullName: `${employee.firstName} ${employee.lastName}`,
+        role: role,
+        avatarUrl: employee.avatarUrl,
+        employeeId: employee.id
+      };
+      
+      return [...prevUsers, newUser];
+    });
+  };
 
   const renderContent = () => {
+    if (!user) return null;
+
+    // Filter data if user is STAFF
+    const isStaff = user.role === 'STAFF';
+    
+    // For STAFF: Only show their own data
+    // For ADMIN/HR: Show all data
+    const visibleAttendance = isStaff 
+      ? attendance.filter(r => r.employeeId === user.employeeId)
+      : attendance;
+
+    const visiblePayroll = isStaff
+      ? payroll.filter(r => r.employeeId === user.employeeId)
+      : payroll;
+
     switch (currentView) {
       case 'DASHBOARD':
         return <Dashboard employees={employees} />;
       case 'EMPLOYEES':
         return <EmployeeList 
           employees={employees} 
+          users={users} // Pass all users to check linking
+          currentUser={user} // Pass current user for permission checks
+          departments={departments} // Pass dynamic departments
           onSelectEmployee={handleSelectEmployee} 
           onImportEmployees={handleImportEmployees}
+          onUpdateAccess={handleUpdateUserAccess}
         />;
       case 'ATTENDANCE':
         return <AttendanceView 
-          data={attendance}
+          data={visibleAttendance}
           employees={employees}
           onImportData={handleImportAttendance} 
         />;
       case 'PAYROLL':
         return <PayrollView 
-          data={payroll} 
+          data={visiblePayroll} 
           onImportData={handleImportPayroll} 
         />;
       case 'PROFILE':
@@ -78,8 +151,25 @@ const App: React.FC = () => {
         ) : (
           <EmployeeList 
             employees={employees} 
+            users={users}
+            currentUser={user}
+            departments={departments}
             onSelectEmployee={handleSelectEmployee}
             onImportEmployees={handleImportEmployees}
+            onUpdateAccess={handleUpdateUserAccess}
+          />
+        );
+      case 'ACCOUNT':
+        // Find the linked employee record if available
+        const linkedEmployee = user.employeeId 
+          ? employees.find(e => e.id === user.employeeId) 
+          : undefined;
+        return (
+          <AccountProfile 
+            user={user} 
+            linkedEmployee={linkedEmployee} 
+            departments={departments}
+            onAddDepartment={handleAddDepartment}
           />
         );
       default:

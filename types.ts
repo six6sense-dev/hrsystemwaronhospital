@@ -24,6 +24,7 @@ export interface User {
   fullName: string;
   role: Role;
   avatarUrl: string;
+  employeeId?: string; // Links the user account to a specific employee record
 }
 
 export interface Employee {
@@ -33,7 +34,7 @@ export interface Employee {
   email: string;
   phone: string;
   role: string;
-  department: Department;
+  department: string; // Changed from Department enum to string to allow dynamic additions
   status: EmploymentStatus;
   joinDate: string;
   avatarUrl: string;
@@ -66,7 +67,7 @@ export interface PayrollRecord {
   status: 'Paid' | 'Pending' | 'Processing';
 }
 
-export type ViewState = 'DASHBOARD' | 'EMPLOYEES' | 'PROFILE' | 'ATTENDANCE' | 'PAYROLL';
+export type ViewState = 'DASHBOARD' | 'EMPLOYEES' | 'PROFILE' | 'ATTENDANCE' | 'PAYROLL' | 'ACCOUNT';
 
 export interface AIResponse {
   content: string;

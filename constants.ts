@@ -13,7 +13,16 @@ export const MOCK_USERS: User[] = [
     username: 'hr',
     fullName: 'Linda Kusuma',
     role: 'HR_MANAGER',
-    avatarUrl: 'https://picsum.photos/id/338/200/200'
+    avatarUrl: 'https://picsum.photos/id/338/200/200',
+    employeeId: 'EMP-005' // Linked to Linda's employee record
+  },
+  {
+    id: 'USR-003',
+    username: 'staff',
+    fullName: 'Sarah Wijaya',
+    role: 'STAFF',
+    avatarUrl: 'https://picsum.photos/id/64/200/200',
+    employeeId: 'EMP-001' // Linked to Sarah's employee record
   }
 ];
 

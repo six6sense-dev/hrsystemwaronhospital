@@ -1,5 +1,5 @@
 import React from 'react';
-import { LayoutDashboard, Users, Activity, Settings, LogOut, Clock, DollarSign, ShieldCheck } from 'lucide-react';
+import { LayoutDashboard, Users, Activity, LogOut, Clock, DollarSign, ShieldCheck, Settings, User as UserIcon } from 'lucide-react';
 import { ViewState, User } from '../types';
 
 interface SidebarProps {
@@ -12,7 +12,7 @@ interface SidebarProps {
 const Sidebar: React.FC<SidebarProps> = ({ currentView, onChangeView, user, onLogout }) => {
   const menuItems = [
     { id: 'DASHBOARD', label: 'Dashboard', icon: LayoutDashboard },
-    { id: 'EMPLOYEES', label: 'Karyawan', icon: Users },
+    { id: 'EMPLOYEES', label: 'Karyawan', icon: Users, restricted: true }, // Restricted to Admin/HR
     { id: 'ATTENDANCE', label: 'Absensi', icon: Clock },
     { id: 'PAYROLL', label: 'Gaji', icon: DollarSign },
   ];
@@ -32,6 +32,9 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, onChangeView, user, onLo
       <div className="flex-1 py-6 px-4 space-y-2">
         <p className="px-4 text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Main Menu</p>
         {menuItems.map((item) => {
+          // Hide Employees menu if user is STAFF
+          if (item.restricted && user.role === 'STAFF') return null;
+
           const Icon = item.icon;
           const isActive = currentView === item.id || (currentView === 'PROFILE' && item.id === 'EMPLOYEES');
           
@@ -53,20 +56,24 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, onChangeView, user, onLo
       </div>
 
       <div className="p-4 border-t border-slate-800 bg-slate-900/50">
-        <div className="flex items-center gap-3 px-2 mb-4">
+        <button 
+          onClick={() => onChangeView('ACCOUNT')}
+          className={`w-full flex items-center gap-3 px-2 mb-4 p-2 rounded-lg transition-colors ${currentView === 'ACCOUNT' ? 'bg-slate-800' : 'hover:bg-slate-800/50'}`}
+        >
             <img 
                 src={user.avatarUrl} 
                 alt={user.fullName}
                 className="w-10 h-10 rounded-full border-2 border-teal-500"
             />
-            <div className="overflow-hidden">
+            <div className="overflow-hidden text-left">
                 <p className="text-sm font-semibold text-white truncate">{user.fullName}</p>
                 <div className="flex items-center gap-1 text-xs text-teal-400">
                     <ShieldCheck size={10} />
                     <span>{user.role}</span>
                 </div>
             </div>
-        </div>
+            <Settings size={16} className="ml-auto text-slate-500" />
+        </button>
 
         <button 
           onClick={onLogout}

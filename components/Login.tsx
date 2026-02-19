@@ -23,7 +23,8 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
       // Basic mock authentication logic
       const user = MOCK_USERS.find(u => u.username === username);
       
-      if (user && password === 'admin') { // Hardcoded password for demo
+      // Simple mock password check: password must equal username
+      if (user && password === username) { 
         onLogin(user);
       } else {
         setError('Username atau password salah');
@@ -51,7 +52,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
 
         {/* Form Section */}
         <div className="p-8">
-          <h2 className="text-xl font-bold text-slate-800 mb-6 text-center">Login Administrator</h2>
+          <h2 className="text-xl font-bold text-slate-800 mb-6 text-center">Login Portal</h2>
           
           {error && (
             <div className="mb-6 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg flex items-center gap-2 text-sm">
@@ -112,7 +113,19 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
 
           <div className="mt-8 text-center text-xs text-slate-400">
             <p>Demo Credentials:</p>
-            <p>User: <strong>admin</strong> | Pass: <strong>admin</strong></p>
+            <div className="flex justify-center gap-4 mt-2">
+                <div className="text-left">
+                    <p className="font-semibold text-slate-600">Admin</p>
+                    <p>User: <strong>admin</strong></p>
+                    <p>Pass: <strong>admin</strong></p>
+                </div>
+                <div className="w-px bg-slate-200"></div>
+                <div className="text-left">
+                    <p className="font-semibold text-slate-600">Staff</p>
+                    <p>User: <strong>staff</strong></p>
+                    <p>Pass: <strong>staff</strong></p>
+                </div>
+            </div>
           </div>
         </div>
       </div>

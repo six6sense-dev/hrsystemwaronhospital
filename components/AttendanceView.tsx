@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Search, Filter, Upload, Briefcase, Sun, Moon, Sunset, Coffee, CalendarCheck, CalendarX, Building2 } from 'lucide-react';
+import { Search, Filter, Upload, Briefcase, Sun, Moon, Sunset, Coffee, CalendarCheck, CalendarX, Building2, FileDown } from 'lucide-react';
 import { AttendanceRecord, Employee, Department } from '../types';
 import DataImportModal from './DataImportModal';
+import * as XLSX from 'xlsx';
 
 interface AttendanceViewProps {
   data: AttendanceRecord[];
@@ -39,6 +40,24 @@ const AttendanceView: React.FC<AttendanceViewProps> = ({ data, employees, onImpo
     }));
 
     onImportData(mappedData);
+  };
+
+  const handleDownloadTemplate = () => {
+    const headers = ['EmployeeID', 'Name', 'Date', 'CheckIn', 'CheckOut', 'Shift', 'Status'];
+    const sampleData = [{
+      EmployeeID: 'EMP-001',
+      Name: 'Sarah Wijaya',
+      Date: '2023-10-25',
+      CheckIn: '08:00',
+      CheckOut: '17:00',
+      Shift: 'Pagi', // Pagi, Siang, Malam, Middle
+      Status: 'Present'
+    }];
+    
+    const ws = XLSX.utils.json_to_sheet(sampleData, { header: headers });
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Template");
+    XLSX.writeFile(wb, "Template_Attendance_WaronHospital.xlsx");
   };
 
   // 1. Group employees by Department
@@ -101,6 +120,15 @@ const AttendanceView: React.FC<AttendanceViewProps> = ({ data, employees, onImpo
           <button className="flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 text-slate-600 rounded-lg text-sm font-medium hover:bg-slate-50 transition-colors">
             <Filter size={16} /> Filter
           </button>
+          
+          <button 
+             onClick={handleDownloadTemplate}
+             className="flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 text-slate-600 rounded-lg text-sm font-medium hover:bg-slate-50 transition-colors"
+             title="Download Excel Template"
+           >
+            <FileDown size={16} /> Template
+          </button>
+
            <button 
              onClick={() => setIsImportModalOpen(true)}
              className="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 transition-colors"
