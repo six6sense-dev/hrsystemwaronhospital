@@ -87,13 +87,13 @@ const EmployeeList: React.FC<EmployeeListProps> = ({ employees, users, currentUs
   return (
     <div className="space-y-6 animate-fade-in">
       {/* Header Actions */}
-      <div className="flex flex-col md:flex-row justify-between items-center gap-4 bg-white p-4 rounded-xl shadow-sm border border-slate-100">
+      <div className="flex flex-col md:flex-row justify-between items-center gap-4 bg-white p-4 rounded-xl shadow-sm border border-zinc-200">
         <div className="relative w-full md:w-96">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400 w-5 h-5" />
           <input 
             type="text"
             placeholder="Cari karyawan..."
-            className="w-full pl-10 pr-4 py-2 bg-slate-50 border-none rounded-lg focus:ring-2 focus:ring-teal-500 outline-none text-slate-700"
+            className="w-full pl-10 pr-4 py-2 bg-zinc-50 border-none rounded-lg focus:ring-2 focus:ring-orange-500 outline-none text-zinc-700 placeholder-zinc-400"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -101,9 +101,9 @@ const EmployeeList: React.FC<EmployeeListProps> = ({ employees, users, currentUs
         
         <div className="flex gap-2 w-full md:w-auto overflow-x-auto">
           <div className="relative">
-             <Filter className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4" />
+             <Filter className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400 w-4 h-4" />
              <select 
-               className="pl-9 pr-8 py-2 bg-white border border-slate-200 rounded-lg text-sm text-slate-600 focus:outline-none focus:border-teal-500 appearance-none cursor-pointer"
+               className="pl-9 pr-8 py-2 bg-white border border-zinc-200 rounded-lg text-sm text-zinc-600 focus:outline-none focus:border-orange-500 appearance-none cursor-pointer"
                value={selectedDept}
                onChange={(e) => setSelectedDept(e.target.value)}
              >
@@ -116,7 +116,7 @@ const EmployeeList: React.FC<EmployeeListProps> = ({ employees, users, currentUs
           
           <button 
             onClick={handleDownloadTemplate}
-            className="px-4 py-2 bg-white border border-slate-200 text-slate-600 rounded-lg text-sm font-medium hover:bg-slate-50 transition-colors flex items-center gap-2"
+            className="px-4 py-2 bg-white border border-zinc-200 text-zinc-600 rounded-lg text-sm font-medium hover:bg-zinc-50 transition-colors flex items-center gap-2"
             title="Download Excel Template"
           >
              <FileDown size={16} /> Template
@@ -124,12 +124,12 @@ const EmployeeList: React.FC<EmployeeListProps> = ({ employees, users, currentUs
 
           <button 
             onClick={() => setIsImportModalOpen(true)}
-            className="px-4 py-2 bg-white border border-slate-200 text-slate-600 rounded-lg text-sm font-medium hover:bg-slate-50 transition-colors flex items-center gap-2"
+            className="px-4 py-2 bg-white border border-zinc-200 text-zinc-600 rounded-lg text-sm font-medium hover:bg-zinc-50 transition-colors flex items-center gap-2"
           >
              <Upload size={16} /> Import
           </button>
           
-          <button className="px-4 py-2 bg-teal-600 text-white rounded-lg text-sm font-medium hover:bg-teal-700 transition-colors whitespace-nowrap">
+          <button className="px-4 py-2 bg-orange-600 text-white rounded-lg text-sm font-medium hover:bg-orange-700 transition-colors whitespace-nowrap shadow-sm shadow-orange-500/20">
             + Add Employee
           </button>
         </div>
@@ -145,7 +145,7 @@ const EmployeeList: React.FC<EmployeeListProps> = ({ employees, users, currentUs
             <div 
               key={employee.id}
               onClick={() => onSelectEmployee(employee)}
-              className="group bg-white rounded-xl p-6 shadow-sm border border-slate-100 hover:shadow-md hover:border-teal-200 transition-all cursor-pointer relative overflow-hidden"
+              className="group bg-white rounded-xl p-6 shadow-sm border border-zinc-200 hover:shadow-md hover:border-orange-300 transition-all cursor-pointer relative overflow-hidden"
             >
               <div className="absolute top-3 right-3 flex gap-2">
                 {/* Admin Access Control Button */}
@@ -154,8 +154,8 @@ const EmployeeList: React.FC<EmployeeListProps> = ({ employees, users, currentUs
                     onClick={(e) => handleManageAccess(e, employee)}
                     className={`p-2 rounded-full transition-all ${
                       hasAccess 
-                        ? 'bg-teal-50 text-teal-600 hover:bg-teal-100' 
-                        : 'bg-slate-100 text-slate-400 hover:bg-slate-200'
+                        ? 'bg-orange-50 text-orange-600 hover:bg-orange-100' 
+                        : 'bg-zinc-100 text-zinc-400 hover:bg-zinc-200'
                     }`}
                     title={hasAccess ? `Role: ${linkedUser.role}` : "Grant System Access"}
                   >
@@ -168,31 +168,31 @@ const EmployeeList: React.FC<EmployeeListProps> = ({ employees, users, currentUs
                 <img 
                   src={employee.avatarUrl} 
                   alt={employee.firstName} 
-                  className="w-16 h-16 rounded-full object-cover border-2 border-slate-100 group-hover:border-teal-500 transition-colors"
+                  className="w-16 h-16 rounded-full object-cover border-2 border-zinc-100 group-hover:border-orange-500 transition-colors"
                 />
                 <div>
-                  <h3 className="font-bold text-slate-800">{employee.firstName} {employee.lastName}</h3>
-                  <p className="text-sm text-teal-600 font-medium">{employee.role}</p>
-                  <div className="flex items-center gap-1 mt-1 text-xs text-slate-500">
+                  <h3 className="font-bold text-zinc-800">{employee.firstName} {employee.lastName}</h3>
+                  <p className="text-sm text-orange-600 font-medium">{employee.role}</p>
+                  <div className="flex items-center gap-1 mt-1 text-xs text-zinc-500">
                     <MapPin className="w-3 h-3" />
                     <span>{employee.department}</span>
                   </div>
                 </div>
               </div>
 
-              <div className="mt-6 border-t border-slate-50 pt-4">
+              <div className="mt-6 border-t border-zinc-50 pt-4">
                 <div className="flex justify-between items-center text-sm">
-                  <span className="text-slate-500">Status</span>
+                  <span className="text-zinc-500">Status</span>
                   <span className={`px-2 py-1 rounded-full text-xs font-medium ${
                     employee.status === 'Full Time' ? 'bg-green-100 text-green-700' :
                     employee.status === 'On Leave' ? 'bg-amber-100 text-amber-700' :
-                    'bg-slate-100 text-slate-600'
+                    'bg-zinc-100 text-zinc-600'
                   }`}>
                     {employee.status}
                   </span>
                 </div>
                 <div className="flex justify-between items-center text-sm mt-2">
-                  <span className="text-slate-500">Performance</span>
+                  <span className="text-zinc-500">Performance</span>
                   <div className="flex items-center gap-1 text-amber-500 font-bold">
                      <span>★</span>
                      <span>{employee.performanceRating}</span>
@@ -201,7 +201,7 @@ const EmployeeList: React.FC<EmployeeListProps> = ({ employees, users, currentUs
                 {/* Show linked Role badge if exists */}
                 {linkedUser && (
                    <div className="mt-3 flex items-center justify-end">
-                      <span className="text-[10px] uppercase font-bold text-slate-400 bg-slate-50 px-2 py-0.5 rounded border border-slate-100">
+                      <span className="text-[10px] uppercase font-bold text-zinc-400 bg-zinc-50 px-2 py-0.5 rounded border border-zinc-100">
                         {linkedUser.role} ACCESS
                       </span>
                    </div>
@@ -213,7 +213,7 @@ const EmployeeList: React.FC<EmployeeListProps> = ({ employees, users, currentUs
       </div>
 
       {filteredEmployees.length === 0 && (
-        <div className="text-center py-20 text-slate-400">
+        <div className="text-center py-20 text-zinc-400">
           <p>Tidak ada karyawan ditemukan.</p>
         </div>
       )}

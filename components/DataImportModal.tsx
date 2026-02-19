@@ -127,20 +127,20 @@ const DataImportModal: React.FC<DataImportModalProps> = ({ type, isOpen, onClose
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm animate-fade-in">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-zinc-900/50 backdrop-blur-sm animate-fade-in">
       <div className="bg-white rounded-xl shadow-2xl w-full max-w-lg overflow-hidden">
         {/* Header */}
-        <div className="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50">
-          <h3 className="font-bold text-slate-800">Import Data {type.toLowerCase()}</h3>
-          <button onClick={onClose} className="text-slate-400 hover:text-slate-600 transition-colors">
+        <div className="px-6 py-4 border-b border-zinc-100 flex justify-between items-center bg-zinc-50">
+          <h3 className="font-bold text-zinc-800">Import Data {type.toLowerCase()}</h3>
+          <button onClick={onClose} className="text-zinc-400 hover:text-zinc-600 transition-colors">
             <X size={20} />
           </button>
         </div>
 
         {/* Tabs */}
-        <div className="flex border-b border-slate-100">
+        <div className="flex border-b border-zinc-100">
           <button 
-            className={`flex-1 py-3 text-sm font-medium transition-colors ${activeTab === 'EXCEL' ? 'text-teal-600 border-b-2 border-teal-600' : 'text-slate-500 hover:text-slate-700'}`}
+            className={`flex-1 py-3 text-sm font-medium transition-colors ${activeTab === 'EXCEL' ? 'text-orange-600 border-b-2 border-orange-600' : 'text-zinc-500 hover:text-zinc-700'}`}
             onClick={() => setActiveTab('EXCEL')}
           >
             <div className="flex items-center justify-center gap-2">
@@ -149,7 +149,7 @@ const DataImportModal: React.FC<DataImportModalProps> = ({ type, isOpen, onClose
             </div>
           </button>
           <button 
-            className={`flex-1 py-3 text-sm font-medium transition-colors ${activeTab === 'SHEET' ? 'text-teal-600 border-b-2 border-teal-600' : 'text-slate-500 hover:text-slate-700'}`}
+            className={`flex-1 py-3 text-sm font-medium transition-colors ${activeTab === 'SHEET' ? 'text-orange-600 border-b-2 border-orange-600' : 'text-zinc-500 hover:text-zinc-700'}`}
             onClick={() => setActiveTab('SHEET')}
           >
              <div className="flex items-center justify-center gap-2">
@@ -166,13 +166,13 @@ const DataImportModal: React.FC<DataImportModalProps> = ({ type, isOpen, onClose
               <div className="flex justify-end">
                 <button 
                   onClick={handleDownloadTemplate}
-                  className="text-xs flex items-center gap-1 text-teal-600 hover:text-teal-700 font-medium"
+                  className="text-xs flex items-center gap-1 text-orange-600 hover:text-orange-700 font-medium"
                 >
                   <Download size={14} /> Download Format Template
                 </button>
               </div>
 
-              <div className="border-2 border-dashed border-slate-200 rounded-lg p-8 text-center hover:border-teal-400 transition-colors bg-slate-50">
+              <div className="border-2 border-dashed border-zinc-200 rounded-lg p-8 text-center hover:border-orange-400 transition-colors bg-zinc-50">
                 <input 
                   type="file" 
                   accept=".xlsx, .xls, .csv" 
@@ -181,18 +181,18 @@ const DataImportModal: React.FC<DataImportModalProps> = ({ type, isOpen, onClose
                   onChange={handleFileChange}
                 />
                 <label htmlFor="file-upload" className="cursor-pointer flex flex-col items-center">
-                  <Upload className={`w-10 h-10 mb-3 ${file ? 'text-teal-600' : 'text-slate-400'}`} />
-                  <span className="text-sm font-medium text-slate-700">
+                  <Upload className={`w-10 h-10 mb-3 ${file ? 'text-orange-600' : 'text-zinc-400'}`} />
+                  <span className="text-sm font-medium text-zinc-700">
                     {file ? file.name : 'Click to upload or drag file here'}
                   </span>
-                  <span className="text-xs text-slate-400 mt-1">.xlsx, .xls, .csv supported</span>
+                  <span className="text-xs text-zinc-400 mt-1">.xlsx, .xls, .csv supported</span>
                 </label>
               </div>
               
               <button 
                 onClick={handleExcelImport}
                 disabled={!file || isProcessing}
-                className="w-full py-2.5 bg-teal-600 text-white rounded-lg font-medium hover:bg-teal-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 transition-all"
+                className="w-full py-2.5 bg-orange-600 text-white rounded-lg font-medium hover:bg-orange-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 transition-all"
               >
                 {isProcessing ? (
                   <>
@@ -210,11 +210,11 @@ const DataImportModal: React.FC<DataImportModalProps> = ({ type, isOpen, onClose
           ) : (
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1">Spreadsheet URL</label>
+                <label className="block text-sm font-medium text-zinc-700 mb-1">Spreadsheet URL</label>
                 <input 
                   type="text" 
                   placeholder="https://docs.google.com/spreadsheets/d/..."
-                  className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-teal-500 outline-none text-sm"
+                  className="w-full px-4 py-2 border border-zinc-200 rounded-lg focus:ring-2 focus:ring-orange-500 outline-none text-sm"
                   value={sheetUrl}
                   onChange={(e) => setSheetUrl(e.target.value)}
                 />
@@ -231,9 +231,9 @@ const DataImportModal: React.FC<DataImportModalProps> = ({ type, isOpen, onClose
                   id="auto-sync" 
                   checked={autoSync}
                   onChange={(e) => setAutoSync(e.target.checked)}
-                  className="rounded text-teal-600 focus:ring-teal-500"
+                  className="rounded text-orange-600 focus:ring-orange-500"
                  />
-                 <label htmlFor="auto-sync" className="text-sm text-slate-600">Auto-sync every 15 minutes</label>
+                 <label htmlFor="auto-sync" className="text-sm text-zinc-600">Auto-sync every 15 minutes</label>
               </div>
               
               <button 

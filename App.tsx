@@ -183,7 +183,7 @@ const App: React.FC = () => {
   }
 
   return (
-    <div className="flex min-h-screen bg-slate-50">
+    <div className="flex min-h-screen bg-zinc-50">
       {/* Sidebar */}
       <Sidebar 
         currentView={currentView} 
@@ -195,13 +195,13 @@ const App: React.FC = () => {
       {/* Main Content Area */}
       <div className="flex-1 md:ml-64 transition-all">
         {/* Top Header Mobile */}
-        <div className="md:hidden bg-slate-900 text-white p-4 flex justify-between items-center sticky top-0 z-20 shadow-md">
+        <div className="md:hidden bg-zinc-950 text-white p-4 flex justify-between items-center sticky top-0 z-20 shadow-md">
           <div className="flex items-center gap-2">
              <span className="font-bold">WARON HR</span>
           </div>
           <div className="flex items-center gap-3">
-             <span className="text-xs text-slate-300">{user.username}</span>
-             <button onClick={handleLogout} className="text-xs bg-slate-800 px-3 py-1 rounded border border-slate-700">Logout</button>
+             <span className="text-xs text-zinc-300">{user.username}</span>
+             <button onClick={handleLogout} className="text-xs bg-zinc-800 px-3 py-1 rounded border border-zinc-700">Logout</button>
           </div>
         </div>
 

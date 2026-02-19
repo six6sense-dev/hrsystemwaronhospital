@@ -80,13 +80,13 @@ const PayrollView: React.FC<PayrollViewProps> = ({ data, onImportData }) => {
 
   return (
     <div className="space-y-6 animate-fade-in">
-       <div className="flex flex-col md:flex-row justify-between items-center gap-4 bg-white p-4 rounded-xl shadow-sm border border-slate-100">
+       <div className="flex flex-col md:flex-row justify-between items-center gap-4 bg-white p-4 rounded-xl shadow-sm border border-zinc-200">
         <div className="relative w-full md:w-96">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400 w-5 h-5" />
           <input 
             type="text"
             placeholder="Cari data gaji..."
-            className="w-full pl-10 pr-4 py-2 bg-slate-50 border-none rounded-lg focus:ring-2 focus:ring-teal-500 outline-none text-slate-700"
+            className="w-full pl-10 pr-4 py-2 bg-zinc-50 border-none rounded-lg focus:ring-2 focus:ring-orange-500 outline-none text-zinc-700 placeholder-zinc-400"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -121,7 +121,7 @@ const PayrollView: React.FC<PayrollViewProps> = ({ data, onImportData }) => {
 
            <button 
              onClick={handleDownloadTemplate}
-             className="flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 text-slate-600 rounded-lg text-sm font-medium hover:bg-slate-50 transition-colors"
+             className="flex items-center gap-2 px-4 py-2 bg-white border border-zinc-200 text-zinc-600 rounded-lg text-sm font-medium hover:bg-zinc-50 transition-colors"
              title="Download Excel Template"
            >
               <FileDown size={16} /> Template
@@ -129,7 +129,7 @@ const PayrollView: React.FC<PayrollViewProps> = ({ data, onImportData }) => {
 
            <button 
              onClick={() => setIsImportModalOpen(true)}
-             className="flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 text-slate-600 rounded-lg text-sm font-medium hover:bg-slate-50 transition-colors"
+             className="flex items-center gap-2 px-4 py-2 bg-white border border-zinc-200 text-zinc-600 rounded-lg text-sm font-medium hover:bg-zinc-50 transition-colors"
            >
             <Upload size={16} /> Import
           </button>
@@ -137,34 +137,34 @@ const PayrollView: React.FC<PayrollViewProps> = ({ data, onImportData }) => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
+          <div className="bg-white p-6 rounded-xl shadow-sm border border-zinc-200">
              <div className="flex items-center gap-3 mb-2">
                <div className="p-2 bg-green-100 text-green-600 rounded-lg">
                  <DollarSign size={20} />
                </div>
-               <span className="text-slate-500 font-medium text-sm">Total Disbursed</span>
+               <span className="text-zinc-500 font-medium text-sm">Total Disbursed</span>
              </div>
-             <p className="text-2xl font-bold text-slate-800">
+             <p className="text-2xl font-bold text-zinc-800">
                {formatCurrency(data.filter(d => d.status === 'Paid').reduce((acc, cur) => acc + cur.netSalary, 0))}
              </p>
           </div>
-          <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
+          <div className="bg-white p-6 rounded-xl shadow-sm border border-zinc-200">
              <div className="flex items-center gap-3 mb-2">
                <div className="p-2 bg-amber-100 text-amber-600 rounded-lg">
                  <AlertCircle size={20} />
                </div>
-               <span className="text-slate-500 font-medium text-sm">Pending Approval</span>
+               <span className="text-zinc-500 font-medium text-sm">Pending Approval</span>
              </div>
-             <p className="text-2xl font-bold text-slate-800">
+             <p className="text-2xl font-bold text-zinc-800">
                {data.filter(d => d.status === 'Processing' || d.status === 'Pending').length} Request
              </p>
           </div>
       </div>
 
-      <div className="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden">
+      <div className="bg-white rounded-xl shadow-sm border border-zinc-200 overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-sm text-slate-600">
-            <thead className="bg-slate-50 text-xs uppercase font-semibold text-slate-500">
+          <table className="w-full text-left text-sm text-zinc-600">
+            <thead className="bg-zinc-50 text-xs uppercase font-semibold text-zinc-500">
               <tr>
                 <th className="px-6 py-4">Employee</th>
                 <th className="px-6 py-4">Month</th>
@@ -174,18 +174,18 @@ const PayrollView: React.FC<PayrollViewProps> = ({ data, onImportData }) => {
                 <th className="px-6 py-4 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100">
+            <tbody className="divide-y divide-zinc-100">
               {filteredData.map((record) => (
-                <tr key={record.id} className="hover:bg-slate-50 transition-colors">
+                <tr key={record.id} className="hover:bg-zinc-50 transition-colors">
                   <td className="px-6 py-4">
                     <div>
-                      <div className="font-medium text-slate-800">{record.employeeName}</div>
-                      <div className="text-xs text-slate-400">{record.employeeId}</div>
+                      <div className="font-medium text-zinc-800">{record.employeeName}</div>
+                      <div className="text-xs text-zinc-400">{record.employeeId}</div>
                     </div>
                   </td>
-                   <td className="px-6 py-4 text-slate-500">{record.month}</td>
+                   <td className="px-6 py-4 text-zinc-500">{record.month}</td>
                   <td className="px-6 py-4">{formatCurrency(record.basicSalary)}</td>
-                  <td className="px-6 py-4 font-bold text-slate-800">{formatCurrency(record.netSalary)}</td>
+                  <td className="px-6 py-4 font-bold text-zinc-800">{formatCurrency(record.netSalary)}</td>
                   <td className="px-6 py-4">
                     <span className={`px-2 py-1 rounded-full text-xs font-medium ${
                       record.status === 'Paid' ? 'bg-green-100 text-green-700' :
@@ -198,11 +198,11 @@ const PayrollView: React.FC<PayrollViewProps> = ({ data, onImportData }) => {
                   <td className="px-6 py-4 text-right">
                     <button 
                       onClick={() => setViewingSlip(record)}
-                      className="text-teal-600 hover:text-teal-800 p-2 hover:bg-teal-50 rounded-lg transition-colors group relative"
+                      className="text-orange-600 hover:text-orange-800 p-2 hover:bg-orange-50 rounded-lg transition-colors group relative"
                       title="View Salary Slip"
                     >
                       <FileText size={18} />
-                      <span className="absolute bottom-full right-0 mb-2 w-max px-2 py-1 bg-slate-800 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity">
+                      <span className="absolute bottom-full right-0 mb-2 w-max px-2 py-1 bg-zinc-800 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity">
                         View Slip
                       </span>
                     </button>
@@ -212,7 +212,7 @@ const PayrollView: React.FC<PayrollViewProps> = ({ data, onImportData }) => {
             </tbody>
           </table>
           {filteredData.length === 0 && (
-             <div className="text-center py-12 text-slate-400">
+             <div className="text-center py-12 text-zinc-400">
                No payroll records found.
              </div>
           )}
